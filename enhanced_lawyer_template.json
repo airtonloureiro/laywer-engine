@@ -1,0 +1,81 @@
+{
+    "template_name": "LP_Advogado_Flex_Engine",
+    "version": "6.0",
+    "description": "Template Final v6. Suporta Múltiplos Layouts (Classic/Funnel/Bio), SEO Local, Analytics e Assets.",
+    "prompt_template": "Atue como Engine React. Gere o componente SINGLE FILE seguindo o `layout_mode`:\n\n## 📐 MODO DE LAYOUT (Crítico)\nO formato da página muda radicalmente conforme a variável `layout_mode`:\n\n### 1. 'CLASSIC_LP' (Padrão)\n- Estrutura Completa: Hero -> Sobre -> Diferenciais -> Áreas -> Depoimentos -> Footer.\n- Foco: Institucional e Autoridade.\n\n### 2. 'FUNNEL_QUIZ' (Conversão Agressiva)\n- REMOVA o Menu de navegação.\n- Hero Section deve ocupar 100vh com uma Pergunta Gigante: 'Precisa de um advogado em {{area_atuacao}}?'.\n- Botão CTA Gigante: 'Falar com Especialista Agora'.\n- O resto do conteúdo (Sobre/Diferenciais) fica escondido ou abaixo da dobra (fundo secundário).\n\n### 3. 'LINK_BIO_PRO' (Mobile)\n- Fundo escuro/simples.\n- Centralize Foto do Perfil + Nome.\n- Liste as Áreas de Atuação como BOTÕES empilhados (estilo Linktree).\n- Botão WhatsApp fixo no final.\n\n## 🌎 SEO, IMAGENS & ANALYTICS\n(Mesmas regras da v5.0: Injetar GTM nos botões, usar placeholders se img null, gerar JSON-LD).\n\n## DADOS DE ENTRADA:\n```json\n{{data_json_completo}}\n```\n\n## OUTPUT:\nComponente .jsx único.",
+    "variables": {
+        "required": {
+            "data_json_completo": {
+                "type": "json_object",
+                "__validation": {
+                    "required_fields": [
+                        "config.layout_mode",
+                        "config.project_slug",
+                        "profile.name",
+                        "profile.oab",
+                        "profile.city",
+                        "profile.main_practice_area"
+                    ],
+                    "notes": "Campos marcados como required DEVEM ser preenchidos pelo usuário. Se opcionais estiverem vazios, use os defaults abaixo."
+                },
+                "structure": {
+                    "config": {
+                        "layout_mode": "CLASSIC_LP",
+                        "project_slug": "nome-projeto-exemplo"
+                    },
+                    "profile": {
+                        "name": "Dr. Nome do Advogado",
+                        "oab": "OAB/SP 000000",
+                        "city": "São Paulo - SP",
+                        "archetype": "Estrategista",
+                        "main_practice_area": "Direito Civil"
+                    },
+                    "seo_local": {
+                        "target_neighborhoods": [
+                            "Centro",
+                            "Zona Sul"
+                        ],
+                        "main_keyword": "Advogado Especialista em Divórcio"
+                    },
+                    "intelligence": {
+                        "gtm_id": "",
+                        "pixel_id": ""
+                    },
+                    "conversion": {
+                        "primary_action_url": "https://wa.me/5511999999999"
+                    },
+                    "images": {
+                        "profile_photo": "https://placehold.co/400x400/1e293b/ffffff?text=Foto+Perfil",
+                        "hero_bg": "https://placehold.co/1920x1080/0f172a/ffffff?text=Hero+Background",
+                        "office_photo": "https://placehold.co/800x600/334155/ffffff?text=Escritorio",
+                        "logo_url": "https://placehold.co/200x80/transparent/000000?text=LOGO"
+                    },
+                    "theme": {
+                        "primary_color": "#0f172a",
+                        "secondary_color": "#c2410c",
+                        "font_heading": "Serif"
+                    },
+                    "features": {
+                        "show_testimonials": true,
+                        "show_map": false
+                    },
+                    "content": {
+                        "testimonials_list": [
+                            {
+                                "name": "Cliente Exemplo",
+                                "text": "Excelente profissional, resolveu meu caso rapidamente."
+                            }
+                        ],
+                        "differentials_list": [
+                            {
+                                "title": "Atendimento 24h",
+                                "description": "Estamos disponíveis sempre que você precisar."
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "system_instructions": "Você é uma Engine Multimodo. Se layout_mode='FUNNEL_QUIZ', ignore o layout padrão e crie uma página de alta conversão focada em 1 botão. Se 'LINK_BIO_PRO', crie um layout vertical mobile. Se 'CLASSIC_LP', use o layout institucional completo."
+}
