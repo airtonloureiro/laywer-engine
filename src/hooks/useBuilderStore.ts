@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { LawyerProjectData, LayoutMode, Archetype } from '../types/schema';
+import type { LawyerProjectData, LayoutMode } from '../types/schema';
 
 interface BuilderState {
     data: LawyerProjectData;

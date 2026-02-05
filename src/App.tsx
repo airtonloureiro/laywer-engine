@@ -1,4 +1,4 @@
-import React from 'react';
+// React imports removed as they are unused
 import { LayoutSelector } from './components/LayoutSelector';
 import { GeneralForm } from './components/FormSections/GeneralForm';
 import { MarketingForm } from './components/FormSections/MarketingForm';
