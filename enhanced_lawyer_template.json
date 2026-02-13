@@ -1,7 +1,7 @@
 {
     "template_name": "LP_Advogado_Flex_Engine",
-    "version": "6.0",
-    "description": "Template Final v6. Suporta Múltiplos Layouts (Classic/Funnel/Bio), SEO Local, Analytics e Assets.",
+    "version": "6.5",
+    "description": "Template Final v6.5. Suporta Depoimentos Avançados (Slider/Config/Layouts), Carrossel de Imagens e Branding.",
     "prompt_template": "Atue como Engine React. Gere o componente SINGLE FILE seguindo o `layout_mode`:\n\n## 📐 MODO DE LAYOUT (Crítico)\nO formato da página muda radicalmente conforme a variável `layout_mode`:\n\n### 1. 'CLASSIC_LP' (Padrão)\n- Estrutura Completa: Hero -> Sobre -> Diferenciais -> Áreas -> Depoimentos -> Footer.\n- Foco: Institucional e Autoridade.\n\n### 2. 'FUNNEL_QUIZ' (Conversão Agressiva)\n- REMOVA o Menu de navegação.\n- Hero Section deve ocupar 100vh com uma Pergunta Gigante: 'Precisa de um advogado em {{area_atuacao}}?'.\n- Botão CTA Gigante: 'Falar com Especialista Agora'.\n- O resto do conteúdo (Sobre/Diferenciais) fica escondido ou abaixo da dobra (fundo secundário).\n\n### 3. 'LINK_BIO_PRO' (Mobile)\n- Fundo escuro/simples.\n- Centralize Foto do Perfil + Nome.\n- Liste as Áreas de Atuação como BOTÕES empilhados (estilo Linktree).\n- Botão WhatsApp fixo no final.\n\n## 🌎 SEO, IMAGENS & ANALYTICS\n(Mesmas regras da v5.0: Injetar GTM nos botões, usar placeholders se img null, gerar JSON-LD).\n\n## DADOS DE ENTRADA:\n```json\n{{data_json_completo}}\n```\n\n## OUTPUT:\nComponente .jsx único.",
     "variables": {
         "required": {
@@ -47,6 +47,13 @@
                     "images": {
                         "profile_photo": "https://placehold.co/400x400/1e293b/ffffff?text=Foto+Perfil",
                         "hero_bg": "https://placehold.co/1920x1080/0f172a/ffffff?text=Hero+Background",
+                        "//hero_bg_example_multi": {
+                            "urls": [
+                                "img1.jpg",
+                                "img2.jpg"
+                            ],
+                            "animation": "slide"
+                        },
                         "office_photo": "https://placehold.co/800x600/334155/ffffff?text=Escritorio",
                         "logo_url": "https://placehold.co/200x80/transparent/000000?text=LOGO"
                     },
@@ -60,6 +67,10 @@
                         "show_map": false
                     },
                     "content": {
+                        "testimonial_settings": {
+                            "icon": "star",
+                            "layout": "image_top"
+                        },
                         "testimonials_list": [
                             {
                                 "name": "Cliente Exemplo",

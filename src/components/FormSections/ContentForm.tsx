@@ -69,6 +69,45 @@ export const ContentForm: React.FC = () => {
                 </div>
 
                 <div className="space-y-4">
+                    {/* Global Settings */}
+                    <div className="grid grid-cols-2 gap-4 bg-gray-50/50 p-4 rounded-lg border border-gray-100">
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-500 mb-1">Ícone Padrão</label>
+                            <select
+                                value={data.content.testimonial_settings?.icon || 'star'}
+                                onChange={(e) => updateContent({
+                                    testimonial_settings: {
+                                        ...(data.content.testimonial_settings || { layout: 'image_top' }),
+                                        icon: e.target.value as any
+                                    }
+                                })}
+                                className="w-full bg-white border border-gray-200 rounded px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                            >
+                                <option value="star">Estrelas (Padrão)</option>
+                                <option value="quote">Aspas</option>
+                                <option value="check">Check</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label className="block text-xs font-semibold text-gray-500 mb-1">Layout do Card</label>
+                            <select
+                                value={data.content.testimonial_settings?.layout || 'image_top'}
+                                onChange={(e) => updateContent({
+                                    testimonial_settings: {
+                                        ...(data.content.testimonial_settings || { icon: 'star' }),
+                                        layout: e.target.value as any
+                                    }
+                                })}
+                                className="w-full bg-white border border-gray-200 rounded px-2 py-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                            >
+                                <option value="image_top">Foto no Topo</option>
+                                <option value="image_side">Foto na Lateral (Esq)</option>
+                                <option value="image_right">Foto na Lateral (Dir)</option>
+                                <option value="minimal">Minimalista (Sem foto)</option>
+                            </select>
+                        </div>
+                    </div>
+
                     {data.content.testimonials_list.length === 0 && (
                         <p className="text-sm text-gray-500 text-center py-8 italic bg-gray-50 rounded-lg">Nenhum depoimento cadastrado.</p>
                     )}
@@ -81,13 +120,48 @@ export const ContentForm: React.FC = () => {
                                 <Trash2 size={16} />
                             </button>
                             <div className="space-y-3">
-                                <input
-                                    type="text"
-                                    value={item.name}
-                                    onChange={(e) => updateTestimonial(idx, 'name', e.target.value)}
-                                    className="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 px-0 py-1 text-sm font-bold text-gray-900 focus:outline-none"
-                                    placeholder="Nome do Cliente"
-                                />
+                                <div className="flex gap-4">
+                                    <div className="flex-1 space-y-3">
+                                        <input
+                                            type="text"
+                                            value={item.name}
+                                            onChange={(e) => updateTestimonial(idx, 'name', e.target.value)}
+                                            className="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 px-0 py-1 text-sm font-bold text-gray-900 focus:outline-none"
+                                            placeholder="Nome do Cliente"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={item.role || ''}
+                                            onChange={(e) => updateTestimonial(idx, 'role', e.target.value)}
+                                            className="w-full bg-transparent border-b border-gray-200 focus:border-blue-500 px-0 py-1 text-xs text-gray-500 focus:outline-none"
+                                            placeholder="Cargo/Função (Opcional)"
+                                        />
+                                    </div>
+                                    <div className="w-16">
+                                        <div className="aspect-square bg-gray-200 rounded-lg overflow-hidden relative group/img cursor-pointer border border-gray-300">
+                                            {item.photo ? (
+                                                <img src={item.photo} alt="Foto" className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500 text-center p-1">
+                                                    Foto URL
+                                                </div>
+                                            )}
+                                            {/* Overlay input removed */}
+                                            {/* Better: Just a text input below or popover. Let's make it a text input. */}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-semibold text-gray-500 shrink-0">Foto URL:</span>
+                                    <input
+                                        type="text"
+                                        value={item.photo || ''}
+                                        onChange={(e) => updateTestimonial(idx, 'photo', e.target.value)}
+                                        className="flex-1 bg-white border border-gray-200 rounded px-2 py-1 text-xs text-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                        placeholder="https://..."
+                                    />
+                                </div>
+
                                 <textarea
                                     value={item.text}
                                     onChange={(e) => updateTestimonial(idx, 'text', e.target.value)}

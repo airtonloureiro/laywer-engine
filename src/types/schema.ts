@@ -28,10 +28,17 @@ export interface Conversion {
     primary_action_url: string;
 }
 
+export type AnimationType = 'fade' | 'slide' | 'zoom';
+
+export interface ImageConfig {
+    urls: string[];
+    animation: AnimationType;
+}
+
 export interface Images {
     profile_photo: string | null;
-    hero_bg: string | null;
-    office_photo: string | null;
+    hero_bg: string | ImageConfig | null;
+    office_photo: string | ImageConfig | null;
     logo_url: string | null;
 }
 
@@ -53,6 +60,14 @@ export interface Testimonial {
     photo?: string;
 }
 
+export type TestimonialIcon = 'star' | 'quote' | 'check';
+export type TestimonialLayout = 'image_top' | 'image_side' | 'image_right' | 'minimal';
+
+export interface TestimonialSettings {
+    icon: TestimonialIcon;
+    layout: TestimonialLayout;
+}
+
 export interface Differential {
     title: string;
     description: string;
@@ -61,6 +76,7 @@ export interface Differential {
 
 export interface Content {
     testimonials_list: Testimonial[];
+    testimonial_settings?: TestimonialSettings;
     differentials_list: Differential[];
 }
 

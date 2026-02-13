@@ -1,7 +1,6 @@
 import React from 'react';
 import { useBuilderStore } from '../../hooks/useBuilderStore';
 import { Palette, Image as ImageIcon, Upload } from 'lucide-react';
-import { MediaManager } from '../MediaManager';
 
 export const AssetsColorsForm: React.FC = () => {
     const { data, updateTheme, updateImages } = useBuilderStore();
@@ -92,20 +91,16 @@ export const AssetsColorsForm: React.FC = () => {
                             className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20"
                         />
                     </div>
-
-                    <MediaManager
-                        label="Background Hero (Suporta Múltiplos)"
-                        value={data.images.hero_bg}
-                        onChange={(val) => updateImages({ hero_bg: val })}
-                        placeholder="./assets/hero.jpg"
-                    />
-
-                    <MediaManager
-                        label="Fotos do Escritório"
-                        value={data.images.office_photo}
-                        onChange={(val) => updateImages({ office_photo: val })}
-                        placeholder="./assets/office.jpg"
-                    />
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Background Hero</label>
+                        <input
+                            type="text"
+                            value={data.images.hero_bg || ''}
+                            onChange={(e) => updateImages({ hero_bg: e.target.value })}
+                            placeholder="./assets/hero.jpg"
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/20"
+                        />
+                    </div>
                 </div>
             </div>
         </div>

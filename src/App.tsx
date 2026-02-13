@@ -1,5 +1,6 @@
 // React imports removed as they are unused
 import { LayoutSelector } from './components/LayoutSelector';
+import { PreviewPanel } from './components/PreviewPanel';
 import { GeneralForm } from './components/FormSections/GeneralForm';
 import { MarketingForm } from './components/FormSections/MarketingForm';
 import { AssetsColorsForm } from './components/FormSections/AssetsColorsForm';
@@ -124,16 +125,7 @@ function App() {
 
           {/* Preview Column (Sticky) */}
           <div className="lg:col-span-5">
-            <div className="sticky top-24 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-medium text-gray-500 uppercase text-xs tracking-wider">Live Preview (JSON)</h3>
-              </div>
-              <div className="bg-white rounded-xl border border-gray-200 p-6 h-[calc(100vh-12rem)] overflow-auto shadow-sm">
-                <pre className="font-mono text-xs text-blue-600 leading-relaxed">
-                  {JSON.stringify(data, null, 2)}
-                </pre>
-              </div>
-            </div>
+            <PreviewPanel />
           </div>
 
         </div>

@@ -54,3 +54,15 @@ Adicione um botão "Gerar Config Netlify".
 
 ## TAREFA
 Implemente a interface principal focando no **Seletor de Layout** (cards visuais selecionáveis) e na estruturação correta do objeto `config` no JSON final.
+**[ATUALIZADO]**: No lugar do preview de JSON, implemente um **Live Preview Visual** que renderiza uma aproximação do site final conforme o layout escolhido (`CLASSIC_LP`, `FUNNEL_QUIZ`, `LINK_BIO_PRO`).
+**[NOVO] Suporte a Múltiplas Imagens**: Campos como `hero_bg` e `office_photo` agora aceitam um objeto opcional `{ urls: string[], animation: 'fade'|'slide'|'zoom' }` para criar carrosseis animados automaticamente.
+
+## ⚠️ REGRAS OBRIGATÓRIAS (Branding)
+- **Footer**: O rodapé DEVE conter: "Desenvolvido por Agência Juri" com link para `https://agenciajuri.com.br`.
+- **Copyright**: O ano do copyright deve ser dinâmico (`new Date().getFullYear()`).
+
+## 💬 DEPOIMENTOS AVANÇADOS
+O objeto `content.testimonial_settings` controla o estilo:
+- **`icon`**: 'star' (Renderizar 5 estrelas), 'quote' (Ícone de aspas), 'check' (Ícone de check).
+- **`layout`**: 'image_top' (Foto acima), 'image_side' (Esquerda), 'image_right' (Direita), 'minimal' (Sem foto).
+- **Carousel**: Se houver > 3 depoimentos (desktop) ou > 1 (mobile), OBRIGATÓRIO implementar um Slider/Carousel automático.
