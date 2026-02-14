@@ -107,6 +107,62 @@ export const LAWYER_TEMPLATES: LawyerTemplate[] = [
         - Estrutura de luxo.`
     },
 
+    {
+        id: 'editorial_magazine',
+        name: '📰 Editorial (Magazine)',
+        description: 'Visual editorial com hierarquia tipográfica forte, seções em “storytelling”. Ótimo para autoridade com modernidade.',
+        layoutMode: 'CLASSIC_LP',
+        style: {
+            primaryColor: '#0f172a',     // slate-900
+            secondaryColor: '#f97316',   // orange-500
+            backgroundColor: '#fff7ed',  // orange-50
+            textColor: '#0f172a',
+            borderRadius: '10px',
+            fontFamily: 'DM Serif Display'
+        },
+        structure: {
+            heroVariant: 'split_right',
+            sectionOrder: ['header', 'hero', 'stats', 'about', 'testimonials', 'differentials', 'footer'],
+            aboutVariant: 'stacked',
+            featuresVariant: 'list',
+            cardStyle: 'border_minimal',
+            buttonStyle: 'pill'
+        },
+        promptRules: `ESTILO: EDITORIAL/MAGAZINE.
+- Headline forte e curta, com subheadline explicativa.
+- Use tom confiante e objetivo, sem exageros.
+- Priorize narrativa: "Contexto -> Prova -> Diferenciais -> CTA".
+- Visual com bastante espaço em branco, detalhes em cor secundária (laranja).`
+    },
+
+    {
+        id: 'timeline_caseflow',
+        name: '🧭 Timeline (Como Funciona)',
+        description: 'Foco no processo em etapas (timeline). Perfeito para reduzir ansiedade do cliente e aumentar conversão.',
+        layoutMode: 'CLASSIC_LP',
+        style: {
+            primaryColor: '#14532d',     // green-900
+            secondaryColor: '#84cc16',   // lime-500
+            backgroundColor: '#f0fdf4',  // green-50
+            textColor: '#052e16',
+            borderRadius: '14px',
+            fontFamily: 'Plus Jakarta Sans'
+        },
+        structure: {
+            heroVariant: 'split_left',
+            sectionOrder: ['header', 'hero', 'features', 'about', 'differentials', 'testimonials', 'footer'],
+            aboutVariant: 'image_right',
+            featuresVariant: 'carousel',     // aqui você pode renderizar timeline como carousel no mobile
+            cardStyle: 'default',
+            buttonStyle: 'rounded'
+        },
+        promptRules: `ESTILO: PROCESSO EM ETAPAS (TIMELINE).
+- Estruture a seção "Como funciona" em 3 a 5 passos (curtos).
+- Linguagem tranquilizadora, foco em previsibilidade: "o que acontece agora".
+- Evite jargão jurídico. Use clareza e orientação.
+- CTA depois do passo 3 e no final.`
+    },
+
     // --- FUNNEL_QUIZ TEMPLATES ---
     {
         id: 'funnel_hard_sell',
@@ -150,7 +206,6 @@ export const LAWYER_TEMPLATES: LawyerTemplate[] = [
         - Sem agressividade visual.
         - Foco na foto do advogado passando calma.`
     },
-
     // --- LINK_BIO TEMPLATES ---
     {
         id: 'bio_minimal',
@@ -183,5 +238,29 @@ export const LAWYER_TEMPLATES: LawyerTemplate[] = [
         promptRules: `ESTILO: GRADIENT GLASS.
         - Fundo com gradiente roxo/azul.
         - Botões translúcidos (Glassmorphism).`
+    },
+    {
+        id: 'bio_card_stack',
+        name: '🪪 Bio Card Stack (Cartões)',
+        description: 'Layout em “stack” de cartões (links em cards). Ideal para perfil premium com múltiplos destinos.',
+        layoutMode: 'LINK_BIO_PRO',
+        style: {
+            primaryColor: '#a855f7',     // purple-500
+            secondaryColor: '#fbbf24',   // amber-400
+            backgroundColor: '#0b1020',  // dark navy
+            textColor: '#f8fafc',
+            borderRadius: '20px',
+            fontFamily: 'Space Grotesk'
+        },
+        structure: {
+            cardStyle: 'glass',
+            buttonStyle: 'pill'
+        },
+        promptRules: `ESTILO: BIO PREMIUM EM CARTÕES.
+- Fundo escuro elegante, cards glass com borda sutil.
+- Links como cartões com ícone + título + descrição curta.
+- Primeiro card deve ser CTA principal (WhatsApp ou Agendar).
+- Use linguagem objetiva e de alto padrão.`
     }
+
 ];
