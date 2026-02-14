@@ -123,16 +123,40 @@ No JSON final, normalize para:
 
 Se usuário digitar wa.me/... no input, o app deve extrair e preencher phone_e164.
 
-5) Multi-imagens (NOVO – carrossel)
+6) Autoridade & Confiança (V4 e além)
+O schema agora suporta campos de alta conversão. O editor DEVE fornecer UI para:
 
-Campos como hero_bg e office_photo aceitam:
+profile.years_experience (number): Anos de atuação.
+profile.regional_focus (string): "Nacional", "São Paulo e Região", etc.
 
-string (single image)
+content.process_steps (Array):
+{ "title": "1. Análise", "description": "..." }
 
-ou objeto:
+content.faq_list (Array):
+{ "question": "...", "answer": "..." }
 
-{ "urls": ["...","..."], "animation": "fade|slide|zoom" }
+content.testimonial_settings.google_rating (number): Nota (ex: 4.9).
+content.testimonial_settings.review_count (number): Qtd reviews.
 
+content.stats (Object):
+{ "enabled": true, "items": [{ label, value, suffix }] }
+Implementar com animação "count-up" quando entrar na viewport via IntersectionObserver.
+
+conversion.sticky_cta (Object):
+{ "enabled": true, "position": "bottom-right|center|left", "animation": "pulse|bounce|shake", "animation_speed": "normal|slow|fast" }
+IMPORTANTE: Utilizar a biblioteca 'react-floating-whatsapp' (ou similar) para implementar esta funcionalidade.
+Não reinventar a roda. Instalar a dependência e configurar de acordo com os parâmetros (avatar, nome, mensagem, position).
+Se a animação/velocidade não for suportada nativamente pela lib, injetar CSS customizado ou wrapper.
+
+Regra de Ouro (UX/UI - Chain of Events):
+O botão de CTA (WhatsApp) NÃO pode sobrepor o Banner de Cookies (Privacy Consent).
+- Se a barra de cookies estiver visível, o botão do WhatsApp deve flutuar ACIMA dela (offset bottom).
+- Ao aceitar/fechar os cookies, o botão deve deslizar suavemente (transition-all) para sua posição original.
+- Isso previne cliques acidentais e prioriza o consentimento (Compliance) sem esconder a conversão.
+
+features.show_security_badges (boolean): Selos de "Sigilo" e "OAB" no footer.
+
+Certifique-se de salvar essas estruturas corretamente no JSON final.
 
 Regras de UI
 
@@ -155,58 +179,47 @@ Marketing & SEO
 
 Assets & Cores
 
-Conteúdo
+Aba Conteúdo
+Editor de Listas para:
+- Process Steps (Como Funciona)
+- FAQ (Perguntas Frequentes)
+- Depoimentos (com Google Rating)
+- Diferenciais
+
+Editor de Perfil estendido (Anos de experiência, Foco Regional)
 
 Deploy (opcional)
 
 Aba Geral (foco da tarefa)
-
 Nome do projeto
-
 Slug (auto gerado kebab-case; editável)
-
 Select Cards (Layout Mode):
-
 CLASSIC_LP — Site Institucional Completo (ícone site)
-
 FUNNEL_QUIZ — Página de Captura/Ads (ícone funil)
-
 LINK_BIO_PRO — Cartão de Visita Digital (ícone mobile)
-
 Seleção adicional (obrigatória p/ anti-duplicação):
-
 style pack (sp01/sp02/sp03)
-
 positioning angle / target_audience / tone
 
 Aba Marketing & SEO
-
 Bairros (tags input)
-
+Endereço Completo (string) + Google Maps Embed URL (iframe logic)
 GTM / Pixel (inputs; validar formato; se vazio => não renderizar script no preview)
-
 Arquétipo (Gladiador/Estrategista/Conciliador)
 
 Aba Assets & Cores
-
 Uploads (auto-save em /assets)
-
 Color pickers
-
 Multi-imagens (carrosséis)
 
 Live Preview Visual (obrigatório)
-
 Substitui o preview JSON.
 
 Regras do preview
 
 Renderizar uma aproximação do site final dependendo do layout_mode:
-
-CLASSIC_LP: hero + seções + depoimentos + CTA + footer
-
+CLASSIC_LP: hero (com badges de autoridade) + processo + FAQ + sticky CTA
 FUNNEL_QUIZ: hero curto + prova + CTA + formulário/quiz placeholder + footer
-
 LINK_BIO_PRO: card mobile + botões + mini provas + footer
 
 Branding (obrigatório)
@@ -218,28 +231,20 @@ Copyright dinâmico:
 new Date().getFullYear()
 
 Depoimentos avançados (obrigatório)
-
 content.testimonial_settings controla:
-
 icon: star (renderiza 5 estrelas), quote, check
-
 layout: image_top, image_side, image_right, minimal
+google_rating / review_count (exibe badge de prova social)
 
 Carousel obrigatório:
-
 Desktop: se depoimentos > 3
-
 Mobile: se depoimentos > 1
-
 Slider automático (autoplay) com pause on hover
 
 Export / Persistência
 JSON final gravado em disco
-
 Sempre salvar o JSON completo
-
 Atualizar paths de imagens para ./assets/...
-
 Incluir generated_at atualizado
 
 Deploy (opcional)
@@ -258,4 +263,4 @@ Form builder baseado em schema: gerar inputs a partir do template (mapeamento 1:
 
 Validação runtime: Zod (ou equivalente)
 
-Sem inventar campos fora do template + extensões controladas (schema_version, generated_at, validation, config.template_id, config.variation, config.positioning)
+Sem inventar campos fora do template + extensões controladas (schema_version, generated_at, validation, config.template_id, config.variation, config.positioning, features.sticky_cta, content.process/faq)

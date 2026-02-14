@@ -9,6 +9,7 @@ interface BuilderState {
     updateProfile: (patch: Partial<LawyerProjectData['profile']>) => void;
     updateSeo: (patch: Partial<LawyerProjectData['seo_local']>) => void;
     updateIntelligence: (patch: Partial<LawyerProjectData['intelligence']>) => void;
+    updatePrivacy: (patch: Partial<LawyerProjectData['privacy']>) => void;
     updateConversion: (patch: Partial<LawyerProjectData['conversion']>) => void;
     updateImages: (patch: Partial<LawyerProjectData['images']>) => void;
     updateTheme: (patch: Partial<LawyerProjectData['theme']>) => void;
@@ -49,15 +50,28 @@ const DEFAULT_DATA: LawyerProjectData = {
         oab: 'OAB/SP 000000',
         city: 'São Paulo - SP',
         archetype: 'Estrategista',
-        main_practice_area: 'Direito Civil'
+        main_practice_area: 'Direito Civil',
+        years_experience: 15,
+        regional_focus: 'Atendimento Nacional'
     },
     seo_local: {
-        target_neighborhoods: ['Centro', 'Zona Sul'],
-        main_keyword: 'Advogado Especialista em Divórcio'
+        target_neighborhoods: ['Centro', 'Bairro Nobre'],
+        main_keyword: 'Advogado Especialista',
+        street_address: 'Av. Paulista, 1000 - Bela Vista, São Paulo - SP',
+        map_embed_url: '' // Default empty, user must add
     },
     intelligence: {
         gtm_id: '',
         pixel_id: ''
+    },
+    privacy: {
+        consent: {
+            enabled: true,
+            provider: 'react-cookie-consent',
+            default: 'necessary_only',
+            categories: ['necessary', 'analytics', 'marketing'],
+            policy_url: '/politica-de-privacidade'
+        }
     },
     conversion: {
         primary_action: {
@@ -67,6 +81,12 @@ const DEFAULT_DATA: LawyerProjectData = {
         },
         secondary_action: {
             type: 'NONE'
+        },
+        sticky_cta: {
+            enabled: true,
+            position: 'bottom-right',
+            animation: 'pulse',
+            animation_speed: 'normal'
         }
     },
     images: {
@@ -82,24 +102,42 @@ const DEFAULT_DATA: LawyerProjectData = {
     },
     features: {
         show_testimonials: true,
-        show_map: false
+        show_map: false,
+        show_security_badges: true
     },
     content: {
         testimonials_list: [
             {
-                name: "Cliente Exemplo",
-                text: "Excelente profissional, resolveu meu caso rapidamente."
+                name: "Maria Silva",
+                text: "Profissional extremamente competente e atencioso. Recomendo muito!",
+                role: "Empresária"
+            },
+            {
+                name: "João Santos",
+                text: "O Dr. resolveu meu caso com muita agilidade.",
+                role: "Cliente - São Paulo"
             }
         ],
         testimonial_settings: {
             icon: 'star',
-            layout: 'image_top'
+            layout: 'image_top',
+            google_rating: 4.9,
+            review_count: 124
         },
         differentials_list: [
             {
                 title: "Atendimento 24h",
                 description: "Estamos disponíveis sempre que você precisar."
             }
+        ],
+        process_steps: [
+            { title: "1. Análise do Caso", description: "Entendemos sua situação detalhadamente." },
+            { title: "2. Estratégia", description: "Definimos o melhor caminho jurídico." },
+            { title: "3. Acompanhamento", description: "Você fica informado de cada passo." }
+        ],
+        faq_list: [
+            { question: "Quanto custa a consulta?", answer: "Entre em contato para valores atualizados." },
+            { question: "O atendimento é online?", answer: "Sim, atendemos em todo o Brasil digitalmente." }
         ]
     }
 };
@@ -118,6 +156,9 @@ export const useBuilderStore = create<BuilderState>((set) => ({
     })),
     updateIntelligence: (patch) => set((state) => ({
         data: { ...state.data, intelligence: { ...state.data.intelligence, ...patch } }
+    })),
+    updatePrivacy: (patch) => set((state) => ({
+        data: { ...state.data, privacy: { ...state.data.privacy, ...patch } }
     })),
     updateConversion: (patch) => set((state) => ({
         data: { ...state.data, conversion: { ...state.data.conversion, ...patch } }

@@ -30,11 +30,18 @@ export interface LawyerProfile {
     city: string;
     archetype: Archetype;
     main_practice_area: string;
+    // Authority V4
+    years_experience?: number;
+    specializations?: string[]; // List of specific areas
+    post_grad?: string[]; // List of degrees
+    regional_focus?: string; // e.g., "Atendimento Nacional"
 }
 
 export interface SeoLocal {
     target_neighborhoods: string[];
     main_keyword: string;
+    street_address?: string; // Full address for display
+    map_embed_url?: string; // Google Maps Embed iframe src
 }
 
 export interface Intelligence {
@@ -52,6 +59,12 @@ export interface ConversionAction {
 export interface Conversion {
     primary_action: ConversionAction;
     secondary_action: ConversionAction;
+    sticky_cta?: {
+        enabled: boolean;
+        position: CTAPosition;
+        animation: CTAAnimation;
+        animation_speed: AnimationSpeed;
+    };
 }
 
 export type AnimationType = 'fade' | 'slide' | 'zoom';
@@ -76,9 +89,14 @@ export interface Theme {
     text_color?: string;
 }
 
+export type CTAPosition = 'bottom-left' | 'bottom-center' | 'bottom-right';
+export type CTAAnimation = 'pulse' | 'bounce' | 'shake' | 'none';
+export type AnimationSpeed = 'slow' | 'normal' | 'fast';
+
 export interface Features {
     show_testimonials: boolean;
     show_map: boolean;
+    show_security_badges?: boolean;
 }
 
 export interface Testimonial {
@@ -94,6 +112,18 @@ export type TestimonialLayout = 'image_top' | 'image_side' | 'image_right' | 'mi
 export interface TestimonialSettings {
     icon: TestimonialIcon;
     layout: TestimonialLayout;
+    google_rating?: number;
+    review_count?: number;
+}
+
+export interface ProcessStep {
+    title: string;
+    description: string;
+}
+
+export interface FAQItem {
+    question: string;
+    answer: string;
 }
 
 export interface Differential {
@@ -102,10 +132,34 @@ export interface Differential {
     icon?: string;
 }
 
+export interface StatItem {
+    label: string;
+    value: number;
+    suffix?: string;
+}
+
+export interface Stats {
+    enabled: boolean;
+    items: StatItem[];
+}
+
 export interface Content {
     testimonials_list: Testimonial[];
     testimonial_settings?: TestimonialSettings;
     differentials_list: Differential[];
+    process_steps?: ProcessStep[];
+    faq_list?: FAQItem[];
+    stats?: Stats;
+}
+
+export interface PrivacyConfig {
+    consent: {
+        enabled: boolean;
+        provider: 'react-cookie-consent' | 'klaro' | 'osano' | 'custom';
+        default: 'necessary_only' | 'opt_in' | 'opt_out';
+        categories: string[];
+        policy_url: string;
+    };
 }
 
 export interface LawyerProjectData {
@@ -122,6 +176,7 @@ export interface LawyerProjectData {
     profile: LawyerProfile;
     seo_local: SeoLocal;
     intelligence: Intelligence;
+    privacy: PrivacyConfig;
     conversion: Conversion;
     images: Images;
     theme: Theme;

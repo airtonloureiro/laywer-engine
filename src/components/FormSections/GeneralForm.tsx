@@ -83,6 +83,28 @@ export const GeneralForm: React.FC = () => {
                             />
                         </div>
                     </div>
+
+                    {/* Authority Fields */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Anos de Experiência</label>
+                        <input
+                            type="number"
+                            value={data.profile.years_experience || ''}
+                            onChange={(e) => updateProfile({ years_experience: parseInt(e.target.value) })}
+                            placeholder="Ex: 15"
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Foco Regional</label>
+                        <input
+                            type="text"
+                            value={data.profile.regional_focus || ''}
+                            onChange={(e) => updateProfile({ regional_focus: e.target.value })}
+                            placeholder="Ex: Atendimento Nacional"
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900/10 focus:border-gray-900 transition-all"
+                        />
+                    </div>
                 </div>
 
                 {/* Archetype */}

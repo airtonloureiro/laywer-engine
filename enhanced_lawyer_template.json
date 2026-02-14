@@ -52,18 +52,35 @@
                         "oab": "OAB/SP 000000",
                         "city": "São Paulo - SP",
                         "archetype": "Estrategista",
-                        "main_practice_area": "Direito Civil"
+                        "main_practice_area": "Direito Civil",
+                        "years_experience": 15,
+                        "regional_focus": "Atendimento Nacional"
                     },
                     "seo_local": {
                         "target_neighborhoods": [
                             "Centro",
                             "Zona Sul"
                         ],
-                        "main_keyword": "Advogado Especialista em Divórcio"
+                        "main_keyword": "Advogado Especialista em Divórcio",
+                        "street_address": "Av. Paulista, 1000 - Bela Vista, SP",
+                        "map_embed_url": ""
                     },
                     "intelligence": {
                         "gtm_id": "GTM-XXXXXX",
                         "pixel_id": ""
+                    },
+                    "privacy": {
+                        "consent": {
+                            "enabled": true,
+                            "provider": "react-cookie-consent",
+                            "default": "necessary_only",
+                            "categories": [
+                                "necessary",
+                                "analytics",
+                                "marketing"
+                            ],
+                            "policy_url": "/politica-de-privacidade"
+                        }
                     },
                     "conversion": {
                         "primary_action": {
@@ -74,6 +91,12 @@
                         "secondary_action": {
                             "type": "CALENDLY",
                             "url": "https://calendly.com/advogado/consulta"
+                        },
+                        "sticky_cta": {
+                            "enabled": true,
+                            "position": "bottom-right",
+                            "animation": "pulse",
+                            "animation_speed": "normal"
                         }
                     },
                     "images": {
@@ -91,27 +114,58 @@
                     "theme": {
                         "primary_color": "#0f172a",
                         "secondary_color": "#c2410c",
-                        "font_heading": "Serif"
+                        "background_color": "#ffffff",
+                        "text_color": "#1f2937",
+                        "font_heading": ""
                     },
                     "features": {
                         "show_testimonials": true,
-                        "show_map": false
+                        "show_map": false,
+                        "show_security_badges": true
                     },
                     "content": {
                         "testimonial_settings": {
                             "icon": "star",
-                            "layout": "image_top"
+                            "layout": "image_top",
+                            "google_rating": 4.9,
+                            "review_count": 124
                         },
                         "testimonials_list": [
                             {
                                 "name": "Cliente Exemplo",
-                                "text": "Excelente profissional, resolveu meu caso rapidamente."
+                                "text": "Excelente profissional, resolveu meu caso rapidamente.",
+                                "role": "Cliente Verificado",
+                                "photo": ""
                             }
                         ],
                         "differentials_list": [
                             {
                                 "title": "Atendimento 24h",
                                 "description": "Estamos disponíveis sempre que você precisar."
+                            }
+                        ],
+                        "process_steps": [
+                            {
+                                "title": "1. Análise",
+                                "description": "Estudo detalhado do seu caso."
+                            },
+                            {
+                                "title": "2. Estratégia",
+                                "description": "Definição do melhor caminho jurídico."
+                            },
+                            {
+                                "title": "3. Solução",
+                                "description": "Busca ágil pelo resultado."
+                            }
+                        ],
+                        "faq_list": [
+                            {
+                                "question": "Quanto custa o serviço?",
+                                "answer": "Os valores seguem a tabela da OAB e a complexidade do caso."
+                            },
+                            {
+                                "question": "O atendimento é online?",
+                                "answer": "Sim, atendemos todo o Brasil de forma digital e segura."
                             }
                         ]
                     }

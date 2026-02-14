@@ -1,4 +1,4 @@
-import type { LawyerProjectData } from '../../types';
+import type { LawyerProjectData } from '../../types/schema';
 import { ArrowRight, ShieldCheck, Clock, CheckCircle } from 'lucide-react';
 import { Carousel } from '../Carousel';
 import { TestimonialSlider } from '../TestimonialSlider';

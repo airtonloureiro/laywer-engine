@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useBuilderStore } from '../hooks/useBuilderStore';
 import { ClassicLPPreview } from './previews/ClassicLPPreview';
 import { FunnelQuizPreview } from './previews/FunnelQuizPreview';
 import { LinkBioPreview } from './previews/LinkBioPreview';
+import { FloatingWhatsAppButton } from './FloatingWhatsAppButton';
+import { CookieBanner } from './CookieBanner';
 import { Eye, Code, Smartphone, Monitor } from 'lucide-react';
 
 export function PreviewPanel() {
     const { data } = useBuilderStore();
     const [viewMode, setViewMode] = useState<'visual' | 'json'>('visual');
     const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
+
+    // Simulate Consent Banner State in Preview
+    const [showBanner, setShowBanner] = useState(false);
+
+    // Sync banner state with config changes (reset to open when enabled toggles to true)
+    useEffect(() => {
+        setShowBanner(!!data.privacy?.consent?.enabled);
+    }, [data.privacy?.consent?.enabled]);
 
     const renderPreview = () => {
         switch (data.config.layout_mode) {
@@ -78,21 +88,48 @@ export function PreviewPanel() {
                         </pre>
                     </div>
                 ) : (
-                    <div
-                        className={`transition-all duration-300 bg-white shadow-2xl overflow-y-auto no-scrollbar
+                    <>
+                        <div
+                            className={`transition-all duration-300 bg-white shadow-2xl relative overflow-hidden
                ${effectiveDeviceMode === 'mobile'
-                                ? 'w-[375px] h-[90%] rounded-[3rem] border-8 border-gray-800'
-                                : 'w-full h-full rounded-none'
-                            }
+                                    ? 'w-[375px] h-[90%] rounded-[3rem] border-8 border-gray-800'
+                                    : 'w-full h-full rounded-none'
+                                }
              `}
-                    >
-                        {/* If mobile, add a notch/island visual */}
-                        {effectiveDeviceMode === 'mobile' && (
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-xl z-50"></div>
-                        )}
+                        >
+                            {/* Inner Scrollable Content */}
+                            <div className="w-full h-full overflow-y-auto no-scrollbar">
+                                {/* If mobile, add a notch/island visual (absolute to frame) */}
+                                {effectiveDeviceMode === 'mobile' && (
+                                    <div className="fixed top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 rounded-b-xl z-50 pointer-events-none" style={{ position: 'absolute' }}></div>
+                                )}
 
-                        {renderPreview()}
-                    </div>
+                                {renderPreview()}
+                            </div>
+
+                            {/* Sticky CTA Logic (Absolute to Frame) */}
+                            {data.conversion.sticky_cta?.enabled && (
+                                <FloatingWhatsAppButton
+                                    position={data.conversion.sticky_cta.position || 'bottom-right'}
+                                    animation={data.conversion.sticky_cta.animation || 'pulse'}
+                                    speed={data.conversion.sticky_cta.animation_speed || 'normal'}
+                                    strategy="absolute"
+                                    fontFamily="inherit"
+                                    offsetY={showBanner ? (effectiveDeviceMode === 'mobile' ? 160 : 100) : 0}
+                                />
+                            )}
+
+                            {/* Privacy Consent Banner (Absolute to Frame) */}
+                            {data.privacy?.consent?.enabled && showBanner && (
+                                <CookieBanner
+                                    config={data.privacy.consent}
+                                    theme={data.theme}
+                                    strategy="absolute"
+                                    onDismiss={() => setShowBanner(false)}
+                                />
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
         </div>
