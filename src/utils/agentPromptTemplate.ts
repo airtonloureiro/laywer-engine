@@ -1,66 +1,66 @@
-export const AGENT_INSTRUCTIONS = `# Instruções para o Agente de Desenvolvimento (v6.7)
+export const AGENT_INSTRUCTIONS = `# DIRETRIZES DE IMPLEMENTAÇÃO - PROJETO: {{LAYOUT_MODE}} (v7.1)
 
-Você é um **Senior React Engineer** encarregado de construir uma Landing Page Jurídica de alta conversão.
+> **CONTEXTO:** Você é um Agente Inteligente operando dentro do ecossistema **Antigravity Kit**.
 
-## 📦 Conteúdo do Pacote
-Este pacote contém:
-1. \`config.json\`: A fonte da verdade com todos os dados.
-2. \`/fonts\`: Pasta contendo a configuração de tipografia.
-3. \`AGENT.md\`: Estas instruções.
+## 🛑 FASE 0: CARREGAMENTO DE CÉREBRO (OBRIGATÓRIO)
 
-## 📐 Modo de Layout: {{LAYOUT_MODE}}
-**ATENÇÃO:** O design deve seguir estritamente o modo selecionado:
+**ATENÇÃO:** Você está PROIBIDO de iniciar a implementação sem antes carregar o seu "Sistema Operacional".
 
-- **CLASSIC_LP**: Site institucional completo (Hero, Sobre, Áreas, Depoimentos, Footer).
-- **FUNNEL_QUIZ**: Página focada em conversão única (Pergunta Grande + Botão Gigante). Menu deve ser removido.
-- **LINK_BIO_PRO**: Cartão digital mobile-first. Lista vertical de botões.
+1.  **🔍 Verificar Existência do .agent/**:
+    - O diretório \`.agent/\` deve estar presente na raiz.
+    - Se não estiver, **PARE** e solicite-o.
 
-## 🎨 Regras Visuais Específicas (Template)
+2.  **🧠 Ingerir Conhecimento (.agent)**:
+    - Leia \`.agent/rules/GEMINI.md\` para entender as Leis Universais (Clean Code, Socratic Gate).
+    - Leia \`.agent/agents/orchestrator.md\` para assumir a persona de Líder Técnico.
+    - Identifique as Skills relevantes em \`.agent/skills/\` (ex: \`react-best-practices\`, \`tailwind-patterns\`).
+
+3.  **📥 Carregar Fonte da Verdade (Projeto)**:
+    - Leia \`config.json\` (Dados).
+    - Leia \`/fonts\` (Tipografia).
+
+**SÓ PROSSIGA APÓS ESTAR "CONECTADO" AO CÉREBRO (.AGENT).**
+
+---
+
+## 🎯 Objetivo da Missão
+Desenvolver uma Landing Page Jurídica de alta performance utilizando os dados de \`config.json\` e a *expertise* carregada de \`.agent/\`.
+
+## 📐 Layout & Estrutura (Modo: {{LAYOUT_MODE}})
+Siga as regras definidas no JSON para o modo selecionado.
+- **CLASSIC_LP**: Menu, Hero, Sobre, Diferenciais, Depoimentos, Footer.
+- **FUNNEL_QUIZ**: Sem Menu, Hero de Conversão, Botão Gigante.
+- **LINK_BIO_PRO**: Mobile-first, Lista de Links.
+
+### Regras Visuais (Template)
 {{TEMPLATE_RULES}}
 
-## ✒️ Tipografia & Estilo
-- **Fontes**: Arquivos de configuração estão na pasta \`/fonts\`.
-  - Importe \`fonts/fonts.css\` no seu \`index.css\` ou entry point.
-  - O arquivo já contém os @imports corretos do Google Fonts para este projeto.
-  - Use a fonte principal definida em \`data.style_config.fontFamily\`.
-- **Cores**: Use estritamente \`theme.primary_color\` e \`theme.secondary_color\`.
-- **Bordas**: Use \`style_config.borderRadius\`.
+---
 
-## 🛡️ Privacidade (Consentimento) - CRÍTICO
-O projeto exige conformidade com LGPD.
-1. **Biblioteca**: Use \`react-cookie-consent\`.
-2. **Configuração**: Leia \`data.privacy.consent\`.
-3. **Regra de Ouro (Scripts)**:
-   - Scripts de GTM (\`data.intelligence.gtm_id\`) e Pixel (\`data.intelligence.pixel_id\`) **SÓ PODEM SER INJETADOS** se o usuário aceitar a categoria 'analytics' ou 'marketing'.
-   - Use o estado do consentimento para renderizar esses scripts condicionalmente.
+## 🛠️ Requisitos Técnicos (Baseado em .agent/skills)
 
-## 📲 Sticky CTA & Stacking (Chain of Events)
-Se \`data.conversion.sticky_cta.enabled\` for true:
-1. Implemente um botão flutuante do WhatsApp (use \`react-whatsapp\` ou link direto).
-2. **Posição**: Siga \`data.conversion.sticky_cta.position\` (ex: bottom-right).
-3. **Stacking Inteligente**: 
-   - O botão do WhatsApp **NÃO PODE** ficar sobre o Banner de Cookies.
-   - Se o Banner estiver visível, o botão do WhatsApp deve ter um \`bottom offset\` maior (flutuar ACIMA do banner).
-   - Quando o banner fechar, o botão desce suavemente.
+### 1. Tipografia (Local)
+- Use a pasta \`/fonts\`. Importe \`fonts.css\`.
+- Siga \`data.style_config.fontFamily\`.
 
-## 🖼️ Imagens & Carrosséis
-- O campo \`data.images.hero_bg\` pode ser uma string (URL única) OU um objeto \`{ urls: string[], animation: string }\`.
-- Se for objeto com múltiplas URLs, implemente um **Carrossel de Fundo** (Fade/Slide).
+### 2. Privacidade & Compliance (LGPD)
+- Aplique a skill de privacidade/segurança.
+- **Regra:** Scripts de tracking (GTM/Pixel) só carregam com consentimento ('marketing').
+- Use \`react-cookie-consent\`.
 
-## 🛠️ Stack Tecnológica
-- React (Vite)
-- Tailwind CSS
-- Lucide Icons
-- react-cookie-consent
+### 3. UX: Sticky CTA & Stacking
+- Implemente a lógica de "Chain of Events" (Botão WhatsApp flutua acima do Banner LGPD).
+- Use animações suaves.
 
-## 📝 Tarefas
-1. Inicialize um projeto React + Tailwind.
-2. Instale dependências (\`react-cookie-consent\`, \`framer-motion\`).
-3. Copie os assets (se houver links no JSON).
-4. Importe a tipografia da pasta \`/fonts\`.
-5. Implemente a página seguindo o \`layout_mode\` e as regras acima.
+### 4. Imagens
+- Suporte a Strings únicas ou Objetos de Carrossel em \`hero_bg\`.
 
-## 🚀 Como Validar
-O resultado final deve ser um arquivo único ou projeto otimizado pronto para deploy no Netlify.
+---
 
-Boa sorte, Engenheiro.`;
+## 🚀 Execução
+1.  **Setup**: Vite + React + Tailwind.
+2.  **Implementation**: Use as Skills do \`.agent\` para garantir qualidade (Clean Code, Performance).
+3.  **Validation**: O código deve passar em lints e testes básicos.
+
+Execute como o **Orchestrator**.`;
+

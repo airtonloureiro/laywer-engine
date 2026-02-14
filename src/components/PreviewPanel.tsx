@@ -5,11 +5,11 @@ import { FunnelQuizPreview } from './previews/FunnelQuizPreview';
 import { LinkBioPreview } from './previews/LinkBioPreview';
 import { FloatingWhatsAppButton } from './FloatingWhatsAppButton';
 import { CookieBanner } from './CookieBanner';
-import { Eye, Code, Smartphone, Monitor } from 'lucide-react';
+import { Ruler, Code, Smartphone, Monitor } from 'lucide-react';
 
 export function PreviewPanel() {
     const { data } = useBuilderStore();
-    const [viewMode, setViewMode] = useState<'visual' | 'json'>('visual');
+    const [viewMode, setViewMode] = useState<'blueprint' | 'json'>('blueprint');
     const [deviceMode, setDeviceMode] = useState<'desktop' | 'mobile'>('desktop');
 
     // Simulate Consent Banner State in Preview
@@ -42,11 +42,14 @@ export function PreviewPanel() {
             <div className="flex items-center justify-between bg-white p-2 rounded-lg border border-gray-200 shadow-sm">
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={() => setViewMode('visual')}
-                        className={`p-2 rounded-md transition-colors ${viewMode === 'visual' ? 'bg-blue-50 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
-                        title="Visual Preview"
+                        onClick={() => setViewMode('blueprint')}
+                        className={`p-2 rounded-md transition-colors ${viewMode === 'blueprint' ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-400 hover:text-gray-600'}`}
+                        title="Blueprint (Wireframe) View"
                     >
-                        <Eye size={18} />
+                        <div className="flex items-center gap-2">
+                            <Ruler size={18} />
+                            {viewMode === 'blueprint' && <span className="text-xs">BLUEPRINT</span>}
+                        </div>
                     </button>
                     <button
                         onClick={() => setViewMode('json')}
@@ -57,7 +60,7 @@ export function PreviewPanel() {
                     </button>
                 </div>
 
-                {viewMode === 'visual' && (
+                {viewMode === 'blueprint' && (
                     <div className="flex items-center gap-2 border-l border-gray-200 pl-2">
                         <button
                             onClick={() => setDeviceMode('desktop')}
@@ -90,12 +93,12 @@ export function PreviewPanel() {
                 ) : (
                     <>
                         <div
-                            className={`transition-all duration-300 bg-white shadow-2xl relative overflow-hidden
+                            className={`transition-all duration-300 bg-white shadow-2xl relative overflow-hidden blueprint-mode
                ${effectiveDeviceMode === 'mobile'
                                     ? 'w-[375px] h-[90%] rounded-[3rem] border-8 border-gray-800'
                                     : 'w-full h-full rounded-none'
                                 }
-             `}
+              `}
                         >
                             {/* Inner Scrollable Content */}
                             <div className="w-full h-full overflow-y-auto no-scrollbar">

@@ -18,7 +18,7 @@ export const generateProjectZip = async (data: LawyerProjectData) => {
         .replace('{{LAYOUT_MODE}}', data.config.layout_mode)
         .replace('{{TEMPLATE_RULES}}', rules);
 
-    zip.file('AGENT.md', instructions);
+    zip.file('INSTRUCTIONS.md', instructions);
 
     // 3. Add Fonts Folder
     const fontsFolder = zip.folder('fonts');
