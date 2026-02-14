@@ -61,9 +61,14 @@ export const AssetsColorsForm: React.FC = () => {
                         onChange={(e) => updateTheme({ font_heading: e.target.value })}
                         className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-pink-500/20 focus:border-pink-500 transition-all cursor-pointer"
                     >
-                        <option value="Serif">Serif (Clássico/Jurídico)</option>
-                        <option value="Sans">Sans (Moderno/Tech)</option>
+                        <option value="">Seguir Style Pack (Padrão)</option>
+                        <option value="Fraunces">Fraunces (Elegante/Serifa)</option>
+                        <option value="Space Grotesk">Space Grotesk (Moderno/Tech)</option>
+                        <option value="Inter">Inter (Neutro/Corporativo)</option>
                     </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                        *Se selecionado, substitui a fonte de títulos do Style Pack.
+                    </p>
                 </div>
             </div>
 

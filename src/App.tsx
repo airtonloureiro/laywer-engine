@@ -1,15 +1,29 @@
-// React imports removed as they are unused
+import { useEffect } from 'react';
 import { LayoutSelector } from './components/LayoutSelector';
+import { TemplateSelector } from './components/TemplateSelector';
 import { PreviewPanel } from './components/PreviewPanel';
 import { GeneralForm } from './components/FormSections/GeneralForm';
 import { MarketingForm } from './components/FormSections/MarketingForm';
 import { AssetsColorsForm } from './components/FormSections/AssetsColorsForm';
 import { ContentForm } from './components/FormSections/ContentForm';
 import { useBuilderStore } from './hooks/useBuilderStore';
-import { Download, Code2, Settings } from 'lucide-react';
+import { Download, Code2, Settings, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { validateProject } from './utils/validator';
 
 function App() {
-  const { data } = useBuilderStore();
+  const { data, setValidation } = useBuilderStore();
+
+  // Real-time Validation
+  useEffect(() => {
+    const validation = validateProject(data);
+    // Prevent infinite loop by checking if validation actually changed
+    // JSON.stringify is fast enough for this small object
+    if (JSON.stringify(validation) !== JSON.stringify(data.validation)) {
+      setValidation(validation);
+    }
+  }, [data, setValidation]);
+
+  const validationStatus = data.validation?.status || 'WARN';
 
   const handleExportJson = () => {
     const jsonString = JSON.stringify(data, null, 2);
@@ -67,8 +81,19 @@ function App() {
               <Code2 size={20} className="text-white" />
             </div>
             <h1 className="font-bold text-lg tracking-tight text-gray-900">
-              Lawyer Engine <span className="text-gray-400 font-normal">v6.0</span>
+              Lawyer Engine <span className="text-gray-400 font-normal">v6.6</span>
             </h1>
+
+            {/* Validation Badge */}
+            <div className={`ml-4 flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold border ${validationStatus === 'PASS' ? 'bg-green-50 text-green-700 border-green-200' :
+              validationStatus === 'WARN' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
+                'bg-red-50 text-red-700 border-red-200'
+              }`}>
+              {validationStatus === 'PASS' && <CheckCircle size={14} />}
+              {validationStatus === 'WARN' && <AlertTriangle size={14} />}
+              {validationStatus === 'FAIL' && <XCircle size={14} />}
+              <span>{validationStatus}</span>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
@@ -107,13 +132,22 @@ function App() {
           {/* Editor Column */}
           <div className="lg:col-span-7 space-y-10">
 
-            {/* Section: Layout Mode */}
+            {/* Section: Layout Architecture */}
             <section className="space-y-4">
               <div className="flex items-center gap-2 text-gray-900">
                 <Settings className="text-blue-600" size={20} />
-                <h2 className="text-xl font-bold tracking-tight">Configuração & Layout</h2>
+                <h2 className="text-xl font-bold tracking-tight">Arquitetura & Design</h2>
               </div>
-              <LayoutSelector />
+
+              <div className="pb-4 border-b border-gray-100">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">1. Estrutura (Layout)</p>
+                <LayoutSelector />
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">2. Estilo Visual (Template)</p>
+                <TemplateSelector />
+              </div>
             </section>
 
             <GeneralForm />

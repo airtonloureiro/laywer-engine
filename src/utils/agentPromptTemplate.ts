@@ -12,6 +12,9 @@ Este pacote contém um arquivo \`config.json\` com **todos** os dados necessári
 - **FUNNEL_QUIZ**: Página focada em conversão única (Pergunta Grande + Botão Gigante). Menu deve ser removido.
 - **LINK_BIO_PRO**: Cartão digital mobile-first. Lista vertical de botões.
 
+## 🎨 Regras Visuais Específicas (Template)
+{{TEMPLATE_RULES}}
+
 ## 🛠️ Stack Tecnológica
 - React (Vite)
 - Tailwind CSS

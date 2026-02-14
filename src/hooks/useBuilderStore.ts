@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { LawyerProjectData, LayoutMode } from '../types/schema';
+import { LAWYER_TEMPLATES } from '../data/templates';
 
 interface BuilderState {
     data: LawyerProjectData;
@@ -13,15 +14,35 @@ interface BuilderState {
     updateTheme: (patch: Partial<LawyerProjectData['theme']>) => void;
     updateFeatures: (patch: Partial<LawyerProjectData['features']>) => void;
     updateContent: (patch: Partial<LawyerProjectData['content']>) => void;
+    // Template
+    applyTemplate: (templateId: string) => void;
     // Helpers
     setLayoutMode: (mode: LayoutMode) => void;
+    setValidation: (validation: import('../types/schema').ValidationState) => void;
     reset: () => void;
 }
 
 const DEFAULT_DATA: LawyerProjectData = {
+    schema_version: "6.6.0",
+    locale: "pt-BR",
+    validation: {
+        status: 'WARN',
+        errors: [],
+        warnings: ['Projeto novo iniciado. Preencha os campos obrigatórios.']
+    },
     config: {
         layout_mode: 'CLASSIC_LP',
-        project_slug: 'nome-projeto-exemplo'
+        project_slug: 'meu-projeto-juridico',
+        template_id: 'authority_classic',
+        variation: {
+            seed: 'meu-projeto-juridico',
+            style_pack_id: 'sp01'
+        },
+        positioning: {
+            angle: 'seguranca_juridica',
+            target_audience: 'geral',
+            tone: 'formal'
+        }
     },
     profile: {
         name: 'Dr. Nome do Advogado',
@@ -39,7 +60,14 @@ const DEFAULT_DATA: LawyerProjectData = {
         pixel_id: ''
     },
     conversion: {
-        primary_action_url: 'https://wa.me/5511999999999'
+        primary_action: {
+            type: 'WHATSAPP',
+            phone_e164: '',
+            prefill_message: 'Olá, gostaria de agendar uma consulta.'
+        },
+        secondary_action: {
+            type: 'NONE'
+        }
     },
     images: {
         profile_photo: 'https://placehold.co/400x400/1e293b/ffffff?text=Foto+Perfil',
@@ -50,7 +78,7 @@ const DEFAULT_DATA: LawyerProjectData = {
     theme: {
         primary_color: '#0f172a',
         secondary_color: '#c2410c',
-        font_heading: 'Serif'
+        font_heading: '' // Default to Style Pack
     },
     features: {
         show_testimonials: true,
@@ -63,6 +91,10 @@ const DEFAULT_DATA: LawyerProjectData = {
                 text: "Excelente profissional, resolveu meu caso rapidamente."
             }
         ],
+        testimonial_settings: {
+            icon: 'star',
+            layout: 'image_top'
+        },
         differentials_list: [
             {
                 title: "Atendimento 24h",
@@ -103,8 +135,41 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         data: { ...state.data, content: { ...state.data.content, ...patch } }
     })),
 
+    applyTemplate: (templateId) => set((state) => {
+        // Find template by ID
+        const template = LAWYER_TEMPLATES.find(t => t.id === templateId);
+        if (!template) return state;
+
+        return {
+            data: {
+                ...state.data,
+                templateId: template.id,
+                config: {
+                    ...state.data.config,
+                    layout_mode: template.layoutMode,
+                    template_id: template.id // Sync config.template_id
+                },
+                style_config: {
+                    borderRadius: template.style.borderRadius,
+                    fontFamily: template.style.fontFamily
+                },
+                theme: {
+                    ...state.data.theme,
+                    primary_color: template.style.primaryColor,
+                    secondary_color: template.style.secondaryColor,
+                    background_color: template.style.backgroundColor,
+                    text_color: template.style.textColor
+                }
+            }
+        };
+    }),
+
     setLayoutMode: (mode) => set((state) => ({
         data: { ...state.data, config: { ...state.data.config, layout_mode: mode } }
+    })),
+
+    setValidation: (validation) => set((state) => ({
+        data: { ...state.data, validation }
     })),
 
     reset: () => set({ data: DEFAULT_DATA })

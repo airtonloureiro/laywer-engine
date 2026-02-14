@@ -1,68 +1,261 @@
-# Prompt de Criação: Lawyer LP Engine (v3 - Multi-Layout)
+Papel
 
-Atue como um Senior Electron/React Developer. Preciso criar o **"Lawyer LP Engine"**, um Gerenciador Desktop de Landing Pages.
+Atue como Senior Electron + React Developer. Você vai implementar o "Lawyer LP Engine", um app desktop para gerenciar projetos de landing pages jurídicas e exportar um JSON config que será consumido por um gerador de sites.
 
-## 🎯 NOVIDADE DA VERSÃO 3
-Adicionamos suporte a **Múltiplos Layouts**. O usuário pode escolher "Qual produto" quer gerar com os mesmos dados.
+Prioridade máxima: o JSON exportado deve ser 100% compatível com enhanced_lawyer_template.json (referência absoluta).
 
-## 📋 SCHEMA DE DADOS (CRÍTICO)
-Utilize o arquivo `enhanced_lawyer_template.json` como **referência absoluta** para criar **todos** os campos do formulário.
-- **Validação:** Consulte o objeto `__validation` no JSON para saber quais campos são obrigatórios.
-- **Defaults:** Se o usuário não preencher campos opcionais (imagem, features), utilize os valores exatos que estão no JSON (placeholders).
-- Mapeie cada chave do JSON para um input correspondente na interface.
+Entradas (inputs)
 
-## 📂 UX & FLUXO
-(Mesmo fluxo de Novo/Abrir projeto da v2).
+TEMPLATE_JSON = conteúdo de enhanced_lawyer_template.json (fonte absoluta do schema, defaults e validação).
 
-## 📝 O EDITOR (Campos Atualizados)
+(Opcional) PROJECT_JSON existente (abrir projeto).
 
-### 1. Configurações do Projeto (Aba Geral)
-- Nome do Projeto.
-- **[Select Card] Modo de Layout**:
-    - `CLASSIC_LP`: "Site Institucional Completo" (Ícone de Site).
-    - `FUNNEL_QUIZ`: "Página de Captura/Ads" (Ícone de Funil).
-    - `LINK_BIO_PRO`: "Cartão de Visita Digital" (Ícone de Mobile).
+(Opcional) ASSETS_FOLDER do projeto local.
 
-### 2. Marketing & SEO
-- [Tags Input] Bairros.
-- [Inputs] GTM/Pixel.
-- [Select] Arquétipo (Gladiador/Estrategista/Conciliador).
+Saídas (outputs)
 
-### 3. Assets & Cores
-- Uploads (com auto-save na pasta `/assets`).
-- Color Pickers.
+Aplicativo Electron+React funcional com:
 
-## 📦 LÓGICA DE EXPORTAÇÃO
-Ao salvar, o JSON gerado deve incluir a chave `config.layout_mode` com a seleção do usuário.
+Seletor de Layout (cards): CLASSIC_LP, FUNNEL_QUIZ, LINK_BIO_PRO
 
-```javascript
-// Exemplo do JSON final gravado em disco
+Editor de campos mapeado 1:1 do template
+
+Live Preview Visual (aproximação real do site)
+
+Export JSON com config.layout_mode e config.project_slug
+
+Assets uploader que salva em /assets e atualiza o JSON com paths relativos
+
+Export opcional: netlify.toml (SPA React).
+
+Regras de Contrato (CRÍTICO)
+1) Schema absoluto e versionamento
+
+Você deve tratar o TEMPLATE_JSON como schema source of truth:
+
+Cada campo vira um input.
+
+Defaults devem ser os defaults exatos do template.
+
+Campos obrigatórios vêm do objeto __validation (no template).
+
+No JSON final salvo em disco, sempre incluir no topo:
+
 {
+  "schema_version": "6.6.0",
+  "generated_at": "ISO-8601",
+  "locale": "pt-BR",
   "config": {
-    "layout_mode": "FUNNEL_QUIZ", // <--- O Agente lê isso p/ decidir o layout
-    "project_slug": "doutor-joao"
+    "layout_mode": "CLASSIC_LP|FUNNEL_QUIZ|LINK_BIO_PRO",
+    "project_slug": "kebab-case",
+    "template_id": "enum-do-layout-escolhido",
+    "variation": {
+      "seed": "project_slug",
+      "style_pack_id": "sp01|sp02|sp03"
+    },
+    "positioning": {
+      "angle": "seguranca_juridica|rapidez|alto_padrao|consultivo|defesa_firme",
+      "target_audience": "pais|mulheres|empresarios|servidores|geral",
+      "tone": "formal|moderno|premium|acolhedor"
+    }
   },
-  "profile": { ... },
-  "images": { "profile_photo": "./assets/profile.jpg" ... }
+  "...resto": "..."
 }
-```
 
-## 🛠️ DEPLOY AUTOMÁTICO (Opcional - Aba Deploy)
-Adicione um botão "Gerar Config Netlify".
-- Ação: Criar arquivo `netlify.toml` na raiz do projeto com configurações padrão de React (SPA).
-- Objetivo: Usuário arrasta a pasta pro Netlify e funciona.
 
-## TAREFA
-Implemente a interface principal focando no **Seletor de Layout** (cards visuais selecionáveis) e na estruturação correta do objeto `config` no JSON final.
-**[ATUALIZADO]**: No lugar do preview de JSON, implemente um **Live Preview Visual** que renderiza uma aproximação do site final conforme o layout escolhido (`CLASSIC_LP`, `FUNNEL_QUIZ`, `LINK_BIO_PRO`).
-**[NOVO] Suporte a Múltiplas Imagens**: Campos como `hero_bg` e `office_photo` agora aceitam um objeto opcional `{ urls: string[], animation: 'fade'|'slide'|'zoom' }` para criar carrosseis animados automaticamente.
+Obs: mesmo que teu template atual não tenha template_id/variation/positioning ainda, o app deve suportar esses campos e persistir (o gerador futuro vai usar).
 
-## ⚠️ REGRAS OBRIGATÓRIAS (Branding)
-- **Footer**: O rodapé DEVE conter: "Desenvolvido por Agência Juri" com link para `https://agenciajuri.com.br`.
-- **Copyright**: O ano do copyright deve ser dinâmico (`new Date().getFullYear()`).
+2) Anti “site igual” (obrigatório no editor)
 
-## 💬 DEPOIMENTOS AVANÇADOS
-O objeto `content.testimonial_settings` controla o estilo:
-- **`icon`**: 'star' (Renderizar 5 estrelas), 'quote' (Ícone de aspas), 'check' (Ícone de check).
-- **`layout`**: 'image_top' (Foto acima), 'image_side' (Esquerda), 'image_right' (Direita), 'minimal' (Sem foto).
-- **Carousel**: Se houver > 3 depoimentos (desktop) ou > 1 (mobile), OBRIGATÓRIO implementar um Slider/Carousel automático.
+O editor deve forçar (UI com selects):
+
+config.template_id (derivado do layout ou selecionável)
+
+config.variation.style_pack_id (sp01/sp02/sp03)
+
+config.positioning.angle
+
+config.positioning.target_audience
+
+config.positioning.tone
+
+Sem isso, o app deve mostrar warning de duplicação (“alto risco de sites parecidos”).
+
+3) Regras de validação e estado do projeto
+
+O app deve computar validation.status: PASS | WARN | FAIL
+
+Deve manter:
+
+"validation": {
+  "status": "PASS|WARN|FAIL",
+  "errors": [],
+  "warnings": []
+}
+
+
+FAIL se faltar campo obrigatório do __validation.
+WARN se:
+
+GTM/Pixel vazios (ok, mas avisar)
+
+imagens ausentes (usa placeholder, mas avisar)
+
+positioning/variation não preenchidos
+
+4) Conversão (WhatsApp/Calendly)
+
+Não depender de URL “crua” como fonte única.
+No JSON final, normalize para:
+
+"conversion": {
+  "primary_action": {
+    "type": "WHATSAPP",
+    "phone_e164": "+55XXXXXXXXXXX",
+    "prefill_message": "..."
+  },
+  "secondary_action": {
+    "type": "CALENDLY|FORM|NONE",
+    "url": null
+  }
+}
+
+
+Se usuário digitar wa.me/... no input, o app deve extrair e preencher phone_e164.
+
+5) Multi-imagens (NOVO – carrossel)
+
+Campos como hero_bg e office_photo aceitam:
+
+string (single image)
+
+ou objeto:
+
+{ "urls": ["...","..."], "animation": "fade|slide|zoom" }
+
+
+Regras de UI
+
+Toggle: “Imagem única / Carrossel”
+
+Se carrossel: permitir add/remove/reorder imagens
+
+Salvar paths relativos quando forem uploads locais
+
+UI/UX — Estrutura do app
+Sidebar
+
+Projetos: Novo / Abrir / Salvar / Salvar como
+
+Abas:
+
+Geral
+
+Marketing & SEO
+
+Assets & Cores
+
+Conteúdo
+
+Deploy (opcional)
+
+Aba Geral (foco da tarefa)
+
+Nome do projeto
+
+Slug (auto gerado kebab-case; editável)
+
+Select Cards (Layout Mode):
+
+CLASSIC_LP — Site Institucional Completo (ícone site)
+
+FUNNEL_QUIZ — Página de Captura/Ads (ícone funil)
+
+LINK_BIO_PRO — Cartão de Visita Digital (ícone mobile)
+
+Seleção adicional (obrigatória p/ anti-duplicação):
+
+style pack (sp01/sp02/sp03)
+
+positioning angle / target_audience / tone
+
+Aba Marketing & SEO
+
+Bairros (tags input)
+
+GTM / Pixel (inputs; validar formato; se vazio => não renderizar script no preview)
+
+Arquétipo (Gladiador/Estrategista/Conciliador)
+
+Aba Assets & Cores
+
+Uploads (auto-save em /assets)
+
+Color pickers
+
+Multi-imagens (carrosséis)
+
+Live Preview Visual (obrigatório)
+
+Substitui o preview JSON.
+
+Regras do preview
+
+Renderizar uma aproximação do site final dependendo do layout_mode:
+
+CLASSIC_LP: hero + seções + depoimentos + CTA + footer
+
+FUNNEL_QUIZ: hero curto + prova + CTA + formulário/quiz placeholder + footer
+
+LINK_BIO_PRO: card mobile + botões + mini provas + footer
+
+Branding (obrigatório)
+
+Footer: “Desenvolvido por Agência Juri” linkando para https://agenciajuri.com.br
+
+Copyright dinâmico:
+
+new Date().getFullYear()
+
+Depoimentos avançados (obrigatório)
+
+content.testimonial_settings controla:
+
+icon: star (renderiza 5 estrelas), quote, check
+
+layout: image_top, image_side, image_right, minimal
+
+Carousel obrigatório:
+
+Desktop: se depoimentos > 3
+
+Mobile: se depoimentos > 1
+
+Slider automático (autoplay) com pause on hover
+
+Export / Persistência
+JSON final gravado em disco
+
+Sempre salvar o JSON completo
+
+Atualizar paths de imagens para ./assets/...
+
+Incluir generated_at atualizado
+
+Deploy (opcional)
+
+Botão “Gerar Config Netlify”:
+
+criar netlify.toml SPA padrão na raiz do projeto
+
+Requisitos técnicos
+
+Electron + React (Vite recomendado)
+
+Estado com store (Zustand ou Redux Toolkit)
+
+Form builder baseado em schema: gerar inputs a partir do template (mapeamento 1:1)
+
+Validação runtime: Zod (ou equivalente)
+
+Sem inventar campos fora do template + extensões controladas (schema_version, generated_at, validation, config.template_id, config.variation, config.positioning)

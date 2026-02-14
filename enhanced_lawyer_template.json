@@ -1,8 +1,8 @@
 {
     "template_name": "LP_Advogado_Flex_Engine",
-    "version": "6.5",
-    "description": "Template Final v6.5. Suporta Depoimentos Avançados (Slider/Config/Layouts), Carrossel de Imagens e Branding.",
-    "prompt_template": "Atue como Engine React. Gere o componente SINGLE FILE seguindo o `layout_mode`:\n\n## 📐 MODO DE LAYOUT (Crítico)\nO formato da página muda radicalmente conforme a variável `layout_mode`:\n\n### 1. 'CLASSIC_LP' (Padrão)\n- Estrutura Completa: Hero -> Sobre -> Diferenciais -> Áreas -> Depoimentos -> Footer.\n- Foco: Institucional e Autoridade.\n\n### 2. 'FUNNEL_QUIZ' (Conversão Agressiva)\n- REMOVA o Menu de navegação.\n- Hero Section deve ocupar 100vh com uma Pergunta Gigante: 'Precisa de um advogado em {{area_atuacao}}?'.\n- Botão CTA Gigante: 'Falar com Especialista Agora'.\n- O resto do conteúdo (Sobre/Diferenciais) fica escondido ou abaixo da dobra (fundo secundário).\n\n### 3. 'LINK_BIO_PRO' (Mobile)\n- Fundo escuro/simples.\n- Centralize Foto do Perfil + Nome.\n- Liste as Áreas de Atuação como BOTÕES empilhados (estilo Linktree).\n- Botão WhatsApp fixo no final.\n\n## 🌎 SEO, IMAGENS & ANALYTICS\n(Mesmas regras da v5.0: Injetar GTM nos botões, usar placeholders se img null, gerar JSON-LD).\n\n## DADOS DE ENTRADA:\n```json\n{{data_json_completo}}\n```\n\n## OUTPUT:\nComponente .jsx único.",
+    "version": "6.6",
+    "description": "Template Final v6.6. Suporta Anti-Duplicação, Validação Estrita, Conversão Estruturada e Multi-Imagens.",
+    "prompt_template": "Atue como Engine React. Gere o componente SINGLE FILE seguindo o `layout_mode` e `templateId`:\n\n## 🎨 TEMPLATE SYSTEM (Novo)\nVocê deve escolher um `templateId` adequado ao pedido do usuário:\n\n### 1. `layout_mode: 'CLASSIC_LP'`\n- `authority_classic`: (Default). Hero Centralizado. Foco em Autoridade.\n- `modern_conversion`: Hero Split (Esq/Dir). Foco em Leads (Prova social antes do Sobre).\n- `dark_premium`: Dark Mode + Glassmorphism. Foco em Luxo.\n\n### 2. `layout_mode: 'FUNNEL_QUIZ'`\n- `funnel_hard_sell`: Vermelho/Preto. Urgência.\n- `funnel_soft_trust`: Azul/Branco. Consultivo.\n\n## 📐 MODO DE LAYOUT\n- 'CLASSIC_LP': Site completo.\n- 'FUNNEL_QUIZ': Apenas Hero + Pergunta + CTA (Sem menu).\n- 'LINK_BIO_PRO': Mobile-first vertical.\n\n## 🛡️ ANTI-DUPLICAÇÃO & COPY\nUse `config.positioning` (ang, tone, audience) para personalizar drasticamente o texto. NÃO gere texto genérico.\n\n## DADOS DE ENTRADA:\n```json\n{{data_json_completo}}\n```\n\n## OUTPUT:\nComponente .jsx único.",
     "variables": {
         "required": {
             "data_json_completo": {
@@ -11,17 +11,41 @@
                     "required_fields": [
                         "config.layout_mode",
                         "config.project_slug",
+                        "config.variation.style_pack_id",
+                        "config.positioning.angle",
                         "profile.name",
                         "profile.oab",
-                        "profile.city",
-                        "profile.main_practice_area"
+                        "conversion.primary_action.phone_e164"
                     ],
-                    "notes": "Campos marcados como required DEVEM ser preenchidos pelo usuário. Se opcionais estiverem vazios, use os defaults abaixo."
+                    "notes": "Campos devem seguir estritamente o schema V6.6."
                 },
                 "structure": {
+                    "schema_version": "6.6.0",
+                    "generated_at": "2024-02-14T10:00:00Z",
+                    "locale": "pt-BR",
+                    "validation": {
+                        "status": "PASS",
+                        "errors": [],
+                        "warnings": []
+                    },
+                    "templateId": "authority_classic",
+                    "style_config": {
+                        "borderRadius": "4px",
+                        "fontFamily": "Playfair Display"
+                    },
                     "config": {
                         "layout_mode": "CLASSIC_LP",
-                        "project_slug": "nome-projeto-exemplo"
+                        "project_slug": "nome-projeto-exemplo",
+                        "template_id": "authority_classic",
+                        "variation": {
+                            "seed": "nome-projeto-exemplo",
+                            "style_pack_id": "sp01"
+                        },
+                        "positioning": {
+                            "angle": "seguranca_juridica",
+                            "target_audience": "geral",
+                            "tone": "formal"
+                        }
                     },
                     "profile": {
                         "name": "Dr. Nome do Advogado",
@@ -38,21 +62,28 @@
                         "main_keyword": "Advogado Especialista em Divórcio"
                     },
                     "intelligence": {
-                        "gtm_id": "",
+                        "gtm_id": "GTM-XXXXXX",
                         "pixel_id": ""
                     },
                     "conversion": {
-                        "primary_action_url": "https://wa.me/5511999999999"
+                        "primary_action": {
+                            "type": "WHATSAPP",
+                            "phone_e164": "+5511999999999",
+                            "prefill_message": "Olá, gostaria de agendar uma consulta."
+                        },
+                        "secondary_action": {
+                            "type": "CALENDLY",
+                            "url": "https://calendly.com/advogado/consulta"
+                        }
                     },
                     "images": {
                         "profile_photo": "https://placehold.co/400x400/1e293b/ffffff?text=Foto+Perfil",
-                        "hero_bg": "https://placehold.co/1920x1080/0f172a/ffffff?text=Hero+Background",
-                        "//hero_bg_example_multi": {
+                        "hero_bg": {
                             "urls": [
-                                "img1.jpg",
-                                "img2.jpg"
+                                "https://placehold.co/1920x1080/0f172a/ffffff?text=Hero+1",
+                                "https://placehold.co/1920x1080/1e293b/ffffff?text=Hero+2"
                             ],
-                            "animation": "slide"
+                            "animation": "fade"
                         },
                         "office_photo": "https://placehold.co/800x600/334155/ffffff?text=Escritorio",
                         "logo_url": "https://placehold.co/200x80/transparent/000000?text=LOGO"
@@ -88,5 +119,5 @@
             }
         }
     },
-    "system_instructions": "Você é uma Engine Multimodo. Se layout_mode='FUNNEL_QUIZ', ignore o layout padrão e crie uma página de alta conversão focada em 1 botão. Se 'LINK_BIO_PRO', crie um layout vertical mobile. Se 'CLASSIC_LP', use o layout institucional completo."
+    "system_instructions": "Você é uma Engine React V6.6. Use `data.config.positioning` para adaptar o copywriting e `data.images` (suporte a array de urls) para renderizar carrosséis se necessário. Mantenha o código performático e sem dependências externas além do Lucide-React."
 }

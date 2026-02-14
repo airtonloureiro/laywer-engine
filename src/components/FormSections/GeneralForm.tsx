@@ -100,6 +100,102 @@ export const GeneralForm: React.FC = () => {
                     <p className="text-xs text-gray-500 mt-1">Define o tom de voz dos textos gerados.</p>
                 </div>
             </div>
+
+            {/* Section: Identidade & Posicionamento (Anti-Duplication) */}
+            <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm space-y-6">
+                <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+                    <div className="p-2 bg-purple-50 rounded-lg text-purple-700">
+                        <User size={20} />
+                    </div>
+                    <div className="flex-1">
+                        <h3 className="text-lg font-bold text-gray-900">Identidade & Posicionamento</h3>
+                        <p className="text-xs text-gray-500">Defina a "alma" do projeto para evitar sites iguais.</p>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Style Pack */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Pacote de Estilo (Variação)</label>
+                        <select
+                            value={data.config.variation?.style_pack_id || 'sp01'}
+                            onChange={(e) => updateConfig({
+                                variation: {
+                                    seed: data.config.project_slug,
+                                    style_pack_id: e.target.value as any
+                                }
+                            })}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                        >
+                            <option value="sp01">Style Pack 01 (Padrão)</option>
+                            <option value="sp02">Style Pack 02 (Alternativo)</option>
+                            <option value="sp03">Style Pack 03 (Experimental)</option>
+                        </select>
+                    </div>
+
+                    {/* Tone */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Tom de Voz</label>
+                        <select
+                            value={data.config.positioning?.tone || 'formal'}
+                            onChange={(e) => updateConfig({
+                                positioning: {
+                                    ...data.config.positioning!,
+                                    tone: e.target.value as any
+                                }
+                            })}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                        >
+                            <option value="formal">Formal & Tradicional</option>
+                            <option value="moderno">Moderno & Direto</option>
+                            <option value="premium">Premium & Exclusivo</option>
+                            <option value="acolhedor">Acolhedor & Empático</option>
+                        </select>
+                    </div>
+
+                    {/* Angle */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Ângulo de Venda</label>
+                        <select
+                            value={data.config.positioning?.angle || 'seguranca_juridica'}
+                            onChange={(e) => updateConfig({
+                                positioning: {
+                                    ...data.config.positioning!,
+                                    angle: e.target.value as any
+                                }
+                            })}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                        >
+                            <option value="seguranca_juridica">Segurança Jurídica</option>
+                            <option value="rapidez">Rapidez na Resolução</option>
+                            <option value="alto_padrao">Alto Padrão</option>
+                            <option value="consultivo">Consultivo</option>
+                            <option value="defesa_firme">Defesa Firme</option>
+                        </select>
+                    </div>
+
+                    {/* Target Audience */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-semibold text-gray-700">Público Alvo</label>
+                        <select
+                            value={data.config.positioning?.target_audience || 'geral'}
+                            onChange={(e) => updateConfig({
+                                positioning: {
+                                    ...data.config.positioning!,
+                                    target_audience: e.target.value as any
+                                }
+                            })}
+                            className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500/10 focus:border-purple-500 transition-all cursor-pointer"
+                        >
+                            <option value="geral">Geral</option>
+                            <option value="pais">Pais & Família</option>
+                            <option value="mulheres">Mulheres</option>
+                            <option value="empresarios">Empresários</option>
+                            <option value="servidores">Servidores Públicos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
